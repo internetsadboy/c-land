@@ -38,13 +38,13 @@ void putreverseit (char *s)
 
 int stringlen (char *s)
 {
-	char *i;
-	i = s;
+  char *i;
+  i = s;
 
-	while ('\0' != *s)
-	{
-		s++;
-	}
+  while('\0' != *s)
+  {
+    s++;
+  }
 
   return (int) s - (int) i;
 }
