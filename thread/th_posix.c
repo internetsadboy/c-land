@@ -9,14 +9,14 @@
 #define N_THREADS 8     // number of threads
 
 
-// word_count function signature
+// word_count signature
 static void *word_count (void *info);
 
-// used to store file content
+// file content
 char buffer[BUFF_SIZE];
 
 
-// consists of thread meta data
+// thread meta data
 struct thread_info {
   int start;
   int end;
@@ -32,7 +32,6 @@ struct thread_info {
  */
 static void *word_count (void *info)
 {
-
   struct thread_info *th_info;
 
   th_info = info;
@@ -46,13 +45,13 @@ static void *word_count (void *info)
 
   while (start < end)
   {
-    // non-general case: increment over non-alphanumeric characters
+    // non-general case: traverse over non-alphanumeric characters
     while (!isalpha(buffer[start])) start++;
 
     // increment the count
     if (start < end) th_info->count++;
 
-    // general case; increment to the next character
+    // general case: traverse alphanumeric characters
     while (isalpha(buffer[start])) start++;
   }
 
@@ -70,7 +69,7 @@ int main (int argc, char *argv[])
   // thread buffer
   pthread_t threads[(int) N_THREADS];
 
-  // thread info buffer
+  // thread meta data buffer
   struct thread_info info[N_THREADS];
 
   // thread attributes
@@ -90,7 +89,7 @@ int main (int argc, char *argv[])
     return 1;
   }
 
-  // create a file, cli arg
+  // read file, cli arg
   FILE *file = fopen(argv[1], "r");
 
   // compute size of file
@@ -142,7 +141,6 @@ int main (int argc, char *argv[])
   // join threads, aggregate thread word counts
   for (i = 0; i < (int) N_THREADS; i++)
   {
-
     err = pthread_join(threads[i], NULL);
 
     if (err != 0) printf("pthread_join error %d", err);
